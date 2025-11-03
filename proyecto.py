@@ -280,3 +280,4 @@ while True:
     else:
             print(" Opción inválida, intente nuevamente.")
 
+#futuras implementaciones
