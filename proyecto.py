@@ -85,6 +85,79 @@ class Ai_job_market:
         except Exception as e:
             print("Error al eliminar oferta:", e)
 
+
+    def analisis_habilidades(self):
+        print("ANÁLISIS DE HABILIDADES LABORALES")
+        try:
+            habilidad = input("Ingrese una habilidad que posee: ").strip().lower()
+
+            habilidades = self.data["skills_required"].dropna().apply(
+                lambda x: [h.strip().lower() for h in x.split(",")]
+            )
+            todas = reduce(lambda a, b: a + b, habilidades)
+            conteo = pd.Series(todas).value_counts()
+
+            if habilidad in conteo.index:
+                frecuencia = conteo[habilidad]
+                print(f"La habilidad '{habilidad}' aparece en {frecuencia} ofertas de trabajo.")
+
+
+                promedio = conteo.mean()
+                if frecuencia > promedio * 1.5:
+                    nivel = "ALTAMENTE DEMANDADA"
+                elif frecuencia < promedio * 0.5:
+                    nivel = "POCO DEMANDADA"
+                else:
+                    nivel = "DE DEMANDA MEDIA"
+
+                print(f"Nivel de demanda laboral: {nivel}")
+
+                top = conteo.head(10)
+                plt.figure(figsize=(8, 5))
+                plt.bar(top.index, top.values, color="skyblue")
+                if habilidad in top.index:
+                    plt.bar(habilidad, conteo[habilidad], color="orange")
+                else:
+                    plt.bar(habilidad, conteo[habilidad], color="red")
+                plt.title(f"Ubicación de '{habilidad}' entre las habilidades más demandadas")
+                plt.xlabel("Habilidad")
+                plt.ylabel("Cantidad de ofertas")
+                plt.xticks(rotation=45)
+                plt.tight_layout()
+                plt.show()
+
+            else:
+                print(f"La habilidad '{habilidad}' no aparece en los registros de ofertas.")
+        except Exception as e:
+            print("Error durante el análisis de habilidades:", e)
+
+
+    def habilidades_por_ubicacion(self):
+        print("ANÁLISIS DE HABILIDADES POR UBICACIÓN")
+        try:
+            habilidad = input("Ingrese la habilidad a buscar: ").strip().lower()
+            ubicacion = input("Ingrese la ubicación (ciudad o país): ").strip().lower()
+
+            filtro = self.data[
+                self.data["location"].str.lower().str.contains(ubicacion, na=False)
+                & self.data["skills_required"].str.lower().str.contains(habilidad, na=False)
+            ]
+
+            total_ubicacion = len(self.data[self.data["location"].str.lower().str.contains(ubicacion, na=False)])
+            total_habilidad = len(filtro)
+
+            print(f"En {ubicacion.title()}, existen {total_habilidad} ofertas que requieren '{habilidad}'.")
+            print(f"Porcentaje sobre el total de ofertas en esa ubicación: {round((total_habilidad / total_ubicacion * 100), 2)}%")
+
+            plt.bar(["Total en ubicación", "Con habilidad"], [total_ubicacion, total_habilidad], color=["gray", "blue"])
+            plt.title(f"Ofertas con '{habilidad}' en {ubicacion.title()}")
+            plt.ylabel("Cantidad de ofertas")
+            plt.show()
+
+        except Exception as e:
+            print("Error durante el análisis por ubicación:", e)
+
+
     def menu_analisis(self):
         print("ANÁLISIS Y ESTADÍSTICAS")
         print("1. Cantidad total de ofertas registradas")
@@ -102,12 +175,15 @@ class Ai_job_market:
         print("13. Cantidad de ofertas según el tamaño de la empresa")
         print("14. Salario promedio estimado por nivel de experiencia")
         print("15. Cantidad de ofertas publicadas por año")
+        print("16. Análisis de habilidades laborales")
+        print("17. Análisis de habilidades por ubicación")
 
-        opcion = input("Seleccione una opción (1-15) o 'b' para volver: ")
+        opcion = input("Seleccione una opción (1-17) o 'b' para volver: ")
         if opcion == "b":
             return
 
         try:
+
             if opcion == "1":
                 total = len(self.data)
                 print("Cantidad total de ofertas:", total)
@@ -240,6 +316,12 @@ class Ai_job_market:
                 plt.ylabel("Cantidad de ofertas")
                 plt.show()
 
+            elif opcion == "16":
+                self.analisis_habilidades()
+
+            elif opcion == "17":
+                self.habilidades_por_ubicacion()
+
             else:
                 print("Opción inválida.")
 
@@ -262,21 +344,20 @@ while True:
     print("5. Análisis y estadísticas")
     print("6. Salir")
 
-    opcion = input(" Ingrese su opción: ")
+    opcion = input("Ingrese su opción: ")
 
     if opcion == "1":
-            ai.imprimir_todo()
+        ai.imprimir_todo()
     elif opcion == "2":
-            ai.crear()
+        ai.crear()
     elif opcion == "3":
-            ai.editar()
+        ai.editar()
     elif opcion == "4":
-            ai.eliminar()
+        ai.eliminar()
     elif opcion == "5":
-            ai.menu_analisis()
+        ai.menu_analisis()
     elif opcion == "6":
-            print(" Saliendo del sistema...")
-            break
+        print("Saliendo del sistema...")
+        break
     else:
-            print(" Opción inválida, intente nuevamente.")
-
+        print("Opción inválida, intente nuevamente.")
