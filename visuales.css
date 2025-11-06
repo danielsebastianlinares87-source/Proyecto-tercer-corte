@@ -1,0 +1,159 @@
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fa;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: linear-gradient(135deg, #1e1e2f, #111164);
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+    border-bottom: 4px solid #e49516;
+}
+
+h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* === ACORDEÓN === */
+.acordeon {
+    margin: 1.5rem auto;
+    width: 90%;
+    max-width: 900px;
+}
+
+details {
+    background-color: #fff;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+summary {
+    font-weight: bold;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: #fca311;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    transition: 0.3s;
+}
+
+summary:hover {
+    background-color: #ffb833;
+}
+
+.formulario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 1rem;
+}
+
+.formulario input {
+    flex: 1 1 45%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.formulario button {
+    background-color: #1e1e2f;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.formulario button:hover {
+    background-color: #fca311;
+}
+
+button.eliminar {
+    background-color: #b02a37;
+}
+
+button.eliminar:hover {
+    background-color: #e63946;
+}
+
+/* === TABLA DE DATOS === */
+.tabla-datos {
+    width: 95%;
+    margin: 2rem auto;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+thead {
+    background-color: #31315e;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* === CARRUSEL === */
+.carrusel {
+    margin: 3rem 0;
+    text-align: center;
+}
+
+.contenedor-carrusel {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    scroll-snap-type: x mandatory;
+    padding: 1rem;
+}
+
+.item {
+    flex: 0 0 auto;
+    min-width: 200px;
+    background-color: #1e1e2f;
+    color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    scroll-snap-align: center;
+    transition: 0.3s;
+}
+
+.item:hover {
+    background-color: #fca311;
+    transform: scale(1.05);
+}
+
+
+footer {
+    background-color: #1e1e2f;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}

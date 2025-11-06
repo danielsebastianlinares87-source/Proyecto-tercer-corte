@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Ofertas Laborales IA</title>
+    <link rel="stylesheet" href="visuales.css">
+</head>
+<body>
+    <header>
+        <h1>Centro de Ofertas Laborales de IA</h1>
+        <p>Gestión, análisis y tendencias del mercado laboral en inteligencia artificial</p>
+    </header>
+
+    <section class="acordeon">
+        <details>
+            <summary> Crear nueva oferta</summary>
+            <form class="formulario">
+                <input type="number" placeholder="ID del empleo" required>
+                <input type="text" placeholder="Nombre de la empresa" required>
+                <input type="text" placeholder="Industria" required>
+                <input type="text" placeholder="Título del puesto" required>
+                <input type="text" placeholder="Habilidades requeridas (separadas por comas)" required>
+                <input type="text" placeholder="Nivel de experiencia">
+                <input type="text" placeholder="Tipo de contrato">
+                <input type="text" placeholder="Ubicación">
+                <input type="text" placeholder="Rango salarial (ej. 50000-80000)">
+                <input type="date" placeholder="Fecha de publicación">
+                <input type="text" placeholder="Tamaño de empresa">
+                <input type="text" placeholder="Herramientas preferidas">
+                <button type="submit">Guardar</button>
+            </form>
+        </details>
+
+        <details>
+            <summary> Editar oferta existente</summary>
+            <form class="formulario">
+                <input type="number" placeholder="Ingrese ID del empleo a editar" required>
+                <input type="text" placeholder="Columna a modificar">
+                <input type="text" placeholder="Nuevo valor">
+                <button type="submit">Actualizar</button>
+            </form>
+        </details>
+
+        <details>
+            <summary> Eliminar oferta</summary>
+            <form class="formulario">
+                <input type="number" placeholder="ID del empleo a eliminar" required>
+                <button type="submit" class="eliminar">Eliminar</button>
+            </form>
+        </details>
+    </section>
+
+    <!-- tabla de datos -->
+    <section class="tabla-datos">
+        <h2>Ofertas Registradas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de la compañia</th>
+                    <th>industria</th>
+                    <th>titulo del puesto</th>
+                    <th>habilidades requeridas</th>
+                    <th>Nivel de experiencia</th>
+                    <th>Tipo de contrato</th>
+                    <th>Ubicación</th>
+                    <th>Rango salarial</th>
+                    <th>Fecha de publicacion</th>
+                    <th>tamaño de la empresa</th>
+                    <th>Herramientas preferidas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+                </tr>
+                <tr>
+
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="carrusel">
+        <h2> Opciones de Análisis</h2>
+        <div class="contenedor-carrusel">
+            <div class="item">1. Total de ofertas</div>
+            <div class="item">2. Industria líder</div>
+            <div class="item">3. Ofertas por industria</div>
+            <div class="item">4. Experiencia</div>
+            <div class="item">5. Contratos</div>
+            <div class="item">6. Promedio salarial</div>
+            <div class="item">7. Cargos comunes</div>
+            <div class="item">8. Empresas top</div>
+            <div class="item">9. Salarios extremos</div>
+            <div class="item">10. Habilidades específicas</div>
+            <div class="item">11. Ofertas por ciudad</div>
+            <div class="item">12. Habilidades más demandadas</div>
+            <div class="item">13. Tamaño de empresa</div>
+            <div class="item">14. Salario por experiencia</div>
+            <div class="item">15. Ofertas por año</div>
+            <div class="item">16. Habilidades laborales</div>
+            <div class="item">17. Habilidades por ubicación</div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Desarrollado por D.L y colaboladores © 2025</p>
+    </footer>
+</body>
+</html>
