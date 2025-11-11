@@ -238,3 +238,30 @@ footer p {
   width: 100%;
   border-collapse: collapse;
 }
+/* ======== TÍTULO CON IMÁGENES ======== */
+.titulo-con-iconos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.icono-robot {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(0,180,216,0.5));
+  transition: transform 0.3s ease;
+}
+
+.icono-robot:hover {
+  transform: scale(1.15) rotate(5deg);
+  filter: drop-shadow(0 0 12px rgba(230,57,70,0.8));
+}
+
+header h1 {
+  color: #00b4d8;
+  font-size: 2rem;
+  margin: 0;
+}
+
