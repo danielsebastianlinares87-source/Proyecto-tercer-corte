@@ -74,8 +74,7 @@
       <option value="{{ col }}">{{ col }}</option>
     {% endfor %}
   </select>
-  <input type="text" id="valor" placeholder="Valor a buscar...">
-  <button id="filtrar-btn" type="button">Filtrar</button>
+  <button id="filtrar-btn" type="button">Mostrar solo columna</button>
   <button id="reset-btn" type="button">Mostrar todo</button>
   </div>
   
@@ -325,43 +324,62 @@
     // inicializar carousel simple (scroll horizontal)
     // opcional: puedes mantener automovimiento si quieres
   </script>
-  <script>
-  // 🔍 FILTRAR POR COLUMNA — VERSIÓN CORREGIDA
-  const btnFiltrar = document.getElementById("filtrar-btn");
-  const btnReset = document.getElementById("reset-btn");
-
-  btnFiltrar.addEventListener("click", () => {
-    const colSeleccionada = document.getElementById("columna").value.trim();
-    const valor = document.getElementById("valor").value.trim().toLowerCase();
+<script>
+  // === 🔍 BUSCADOR GLOBAL (FUNCIONAL) ===
+  document.getElementById("buscar").addEventListener("keyup", function() {
+    const texto = this.value.toLowerCase();
     const filas = document.querySelectorAll("#tabla tbody tr");
-    const columnas = Array.from(document.querySelectorAll("#tabla thead th")).map(th =>
-      th.textContent.trim().toLowerCase()
-    );
-
-    if (!colSeleccionada || !valor) {
-      alert("Seleccione una columna y escriba un valor para filtrar.");
-      return;
-    }
-
-    const indiceColumna = columnas.indexOf(colSeleccionada.toLowerCase());
-    if (indiceColumna === -1) {
-      alert("No se encontró la columna seleccionada.");
-      return;
-    }
-
     filas.forEach(fila => {
-      const celda = fila.children[indiceColumna];
-      if (!celda) return;
-      const textoCelda = celda.textContent.trim().toLowerCase();
-      fila.style.display = textoCelda.includes(valor) ? "" : "none";
+      fila.style.display = fila.textContent.toLowerCase().includes(texto) ? "" : "none";
     });
   });
 
-  // 🔁 Mostrar todo
-  btnReset.addEventListener("click", () => {
-    document.getElementById("valor").value = "";
+  // === 🧩 FILTRAR SOLO UNA COLUMNA ===
+  const filtrarBtn = document.getElementById("filtrar-btn");
+  const resetBtn = document.getElementById("reset-btn");
+
+  filtrarBtn.addEventListener("click", () => {
+    const columnaSeleccionada = document.getElementById("columna").value.trim();
+    if (!columnaSeleccionada) {
+      alert("Seleccione una columna para mostrar.");
+      return;
+    }
+
+    const ths = document.querySelectorAll("#tabla thead th");
+    const numColumna = Array.from(ths).findIndex(th =>
+      th.textContent.trim().toLowerCase() === columnaSeleccionada.toLowerCase()
+    );
+
+    if (numColumna === -1) {
+      alert("Columna no encontrada.");
+      return;
+    }
+
+    // Ocultar todas las columnas excepto la seleccionada
+    ths.forEach((th, index) => {
+      th.style.display = index === numColumna ? "" : "none";
+    });
+
+    document.querySelectorAll("#tabla tbody tr").forEach(tr => {
+      Array.from(tr.children).forEach((td, index) => {
+        td.style.display = index === numColumna ? "" : "none";
+      });
+    });
+  });
+
+  // === 🔁 RESETEAR TABLA (mostrar todo) ===
+  resetBtn.addEventListener("click", () => {
     document.getElementById("columna").value = "";
-    document.querySelectorAll("#tabla tbody tr").forEach(fila => fila.style.display = "");
+    document.getElementById("buscar").value = "";
+
+    const ths = document.querySelectorAll("#tabla thead th");
+    ths.forEach(th => th.style.display = "");
+
+    const filas = document.querySelectorAll("#tabla tbody tr");
+    filas.forEach(fila => {
+      fila.style.display = "";
+      Array.from(fila.children).forEach(td => td.style.display = "");
+    });
   });
 </script>
 </body>
