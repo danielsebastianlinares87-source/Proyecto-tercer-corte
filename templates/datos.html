@@ -3,14 +3,60 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Gestión de Ofertas - IA</title>
+  <title>Gestión de Ofertas | IA</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='visuales.css') }}">
+  <style>
+    /* === Mejora visual del buscador === */
+    .buscador {
+      width: 100%;
+      max-width: 500px;
+      margin: 1rem auto 2rem;
+      display: flex;
+      align-items: center;
+      background: #1a1a1a;
+      border-radius: 50px;
+      border: 1px solid #333;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 0 15px rgba(0,180,216,0.15);
+      transition: box-shadow 0.3s ease;
+    }
+    .buscador:hover {
+      box-shadow: 0 0 25px rgba(0,180,216,0.3);
+    }
+    .buscador input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #fff;
+      font-size: 1rem;
+      padding-left: 0.5rem;
+    }
+    .buscador i {
+      color: #00b4d8;
+      font-size: 1.3rem;
+    }
+    .volver {
+      display: inline-block;
+      background: linear-gradient(90deg, #00b4d8, #0077b6);
+      padding: 0.7rem 1.2rem;
+      border-radius: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .volver:hover {
+      background: linear-gradient(90deg, #0077b6, #00b4d8);
+    }
+  </style>
+  <script src="https://kit.fontawesome.com/a2d0b5b98c.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
-    <h1>Gestión de Ofertas Laborales</h1>
-    <p>CRUD y visualización de ofertas registradas</p>
-    <a href="/" style="color:#00b4d8; text-decoration:none;">Ir a Gráficas</a>
+    <h1>Gestión de Ofertas Laborales IA</h1>
+    <p>CRUD y búsqueda avanzada de ofertas</p>
+    <a href="/" class="volver">🔹 Ir a Gráficas</a>
   </header>
 
   <section class="acordeon">
@@ -54,8 +100,12 @@
 
   <section class="tabla-datos">
     <h2>Ofertas registradas</h2>
-    <input type="text" id="buscar" placeholder="Buscar por empresa, título o habilidad..." style="width:100%;padding:0.5rem;margin-bottom:1rem;border-radius:8px;border:1px solid #333;background:#111;color:#eee;">
-    
+
+    <div class="buscador">
+      <i class="fas fa-search"></i>
+      <input type="text" id="buscar" placeholder="Buscar empresa, puesto o habilidad...">
+    </div>
+
     <table id="tabla">
       <thead>
         <tr>
@@ -81,7 +131,7 @@
   </footer>
 
   <script>
-    // Filtro en tiempo real
+    // Buscador en tiempo real
     document.getElementById("buscar").addEventListener("keyup", function() {
       const texto = this.value.toLowerCase();
       const filas = document.querySelectorAll("#tabla tbody tr");
