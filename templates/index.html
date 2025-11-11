@@ -68,15 +68,15 @@
   </div>
   
   <div class="panel-filtro">
-    <select id="columna">
-      <option value="">Seleccione columna...</option>
-      {% for col in datos[0].keys() %}
-        <option value="{{ col }}">{{ col }}</option>
-      {% endfor %}
-    </select>
-    <input type="text" id="valor" placeholder="Valor a buscar...">
-    <button id="filtrar-btn">Filtrar</button>
-    <button id="reset-btn">Mostrar todo</button>
+  <select id="columna">
+    <option value="">Seleccione columna...</option>
+    {% for col in datos[0].keys() %}
+      <option value="{{ col }}">{{ col }}</option>
+    {% endfor %}
+  </select>
+  <input type="text" id="valor" placeholder="Valor a buscar...">
+  <button id="filtrar-btn" type="button">Filtrar</button>
+  <button id="reset-btn" type="button">Mostrar todo</button>
   </div>
   
   <div class="tabla-scroll">
