@@ -62,24 +62,26 @@
     <input type="text" id="buscar" placeholder="Buscar empresa, puesto o habilidad...">
   </div>
 
-  <table id="tabla">
-    <thead>
-      <tr>
-        {% for col in datos[0].keys() %}
-          <th>{{ col }}</th>
-        {% endfor %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for fila in datos %}
+  <div class="tabla-scroll">
+    <table id="tabla">
+      <thead>
         <tr>
-          {% for valor in fila.values() %}
-            <td>{{ valor }}</td>
+          {% for col in datos[0].keys() %}
+            <th>{{ col }}</th>
           {% endfor %}
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for fila in datos %}
+          <tr>
+            {% for valor in fila.values() %}
+              <td>{{ valor }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </section>
 
 
