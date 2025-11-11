@@ -1,1 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gestión de Ofertas - IA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='visuales.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Gestión de Ofertas Laborales</h1>
+    <p>CRUD y visualización de ofertas registradas</p>
+    <a href="/" style="color:#00b4d8; text-decoration:none;">Ir a Gráficas</a>
+  </header>
 
+  <section class="acordeon">
+    <details open>
+      <summary>Crear nueva oferta</summary>
+      <form class="formulario" action="/crear" method="POST">
+        <input name="job_id" type="number" placeholder="ID del empleo" required>
+        <input name="company_name" type="text" placeholder="Empresa" required>
+        <input name="industry" type="text" placeholder="Industria">
+        <input name="job_title" type="text" placeholder="Título del puesto">
+        <input name="skills_required" type="text" placeholder="Habilidades (coma separadas)">
+        <input name="experience_level" type="text" placeholder="Nivel de experiencia">
+        <input name="employment_type" type="text" placeholder="Tipo de contrato">
+        <input name="location" type="text" placeholder="Ubicación">
+        <input name="salary_range_usd" type="text" placeholder="Rango salarial">
+        <input name="posted_date" type="date">
+        <input name="company_size" type="text" placeholder="Tamaño empresa">
+        <input name="tools_preferred" type="text" placeholder="Herramientas preferidas">
+        <button type="submit">Guardar</button>
+      </form>
+    </details>
+
+    <details>
+      <summary>Editar oferta</summary>
+      <form class="formulario" action="/editar" method="POST">
+        <input name="job_id" type="number" placeholder="ID del empleo" required>
+        <input name="columna" type="text" placeholder="Columna a modificar" required>
+        <input name="nuevo_valor" type="text" placeholder="Nuevo valor" required>
+        <button type="submit">Actualizar</button>
+      </form>
+    </details>
+
+    <details>
+      <summary>Eliminar oferta</summary>
+      <form class="formulario" action="/eliminar" method="POST">
+        <input name="job_id" type="number" placeholder="ID del empleo" required>
+        <button type="submit" class="eliminar">Eliminar</button>
+      </form>
+    </details>
+  </section>
+
+  <section class="tabla-datos">
+    <h2>Ofertas registradas</h2>
+    <input type="text" id="buscar" placeholder="Buscar por empresa, título o habilidad..." style="width:100%;padding:0.5rem;margin-bottom:1rem;border-radius:8px;border:1px solid #333;background:#111;color:#eee;">
+    
+    <table id="tabla">
+      <thead>
+        <tr>
+          {% for col in datos[0].keys() %}
+            <th>{{ col }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for fila in datos %}
+          <tr>
+            {% for valor in fila.values() %}
+              <td>{{ valor }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <p>Desarrollado por Daniel Sebastián Linares Martínez © 2025</p>
+  </footer>
+
+  <script>
+    // Filtro en tiempo real
+    document.getElementById("buscar").addEventListener("keyup", function() {
+      const texto = this.value.toLowerCase();
+      const filas = document.querySelectorAll("#tabla tbody tr");
+      filas.forEach(fila => {
+        fila.style.display = fila.textContent.toLowerCase().includes(texto) ? "" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
