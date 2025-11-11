@@ -1,9 +1,8 @@
 job_id,company_name,industry,job_title,skills_required,experience_level,employment_type,location,salary_range_usd,posted_date,company_size,tools_preferred
-1,Foster and Sons,Healthcare,Data Analyst,"NumPy, Reinforcement Learning, PyTorch, Scikit-learn, GCP, FastAPI",Mid,Full-time,"Tracybury, AR",92860-109598,2025-08-20,Large,"KDB+, LangChain"
 2,"Boyd, Myers and Ramirez",Tech,Computer Vision Engineer,"Scikit-learn, CUDA, SQL, Pandas",Senior,Full-time,"Lake Scott, CU",78523-144875,2024-03-22,Large,"FastAPI, KDB+, TensorFlow"
 3,King Inc,Tech,Quant Researcher,"MLflow, FastAPI, Azure, PyTorch, SQL, GCP",Entry,Full-time,"East Paige, CM",124496-217204,2025-09-18,Large,"BigQuery, PyTorch, Scikit-learn"
 4,"Cooper, Archer and Lynch",Tech,AI Product Manager,"Scikit-learn, C++, Pandas, LangChain, AWS, R",Mid,Full-time,"Perezview, FI",50908-123743,2024-05-08,Large,"TensorFlow, BigQuery, MLflow"
-5,Hall LLC,Finance,Data Scientist,"Excel, Keras, SQL, Hugging Face",Senior,Contract,"North Desireeland, NE",98694-135413,2025-02-24,Large,"PyTorch, LangChain"
+5,Hall LLC,Finance,Data Scientist,"Excel, Keras, SQL, Hugging Face",Mid,Contract,"North Desireeland, NE",98694-135413,2025-02-24,Large,"PyTorch, LangChain"
 6,Ellis PLC,E-commerce,AI Product Manager,"GCP, Excel, Scikit-learn, MLflow",Senior,Remote,"South Kevin, TZ",92632-180718,2025-08-07,Large,"PyTorch, TensorFlow, FastAPI"
 7,Matthews-Moses,Automotive,Data Analyst,"Python, Flask, Scikit-learn, GCP",Mid,Full-time,"West Shawn, LR",70575-88594,2024-12-23,Large,"PyTorch, MLflow"
 8,Mullins Ltd,Education,Data Scientist,"Excel, SQL, Flask",Entry,Internship,"Port Hailey, RU",63032-82144,2024-08-14,Large,BigQuery
@@ -1999,3 +1998,4 @@ job_id,company_name,industry,job_title,skills_required,experience_level,employme
 1998,"Brooks, Williams and Randolph",Education,Data Analyst,"Hugging Face, Excel, Scikit-learn, R, MLflow",Entry,Contract,"West Brittanyburgh, CG",134994-180108,2023-10-29,Large,PyTorch
 1999,Castaneda-Smith,Education,Quant Researcher,"AWS, Python, Scikit-learn",Senior,Contract,"Anthonyshire, OM",62388-82539,2024-08-10,Large,"MLflow, TensorFlow, FastAPI"
 2000,Estes Group,Finance,Quant Researcher,"Flask, TensorFlow, Power BI",Senior,Full-time,"Benjaminview, NE",55835-97374,2025-02-20,Startup,MLflow
+123312312,Dl industrys,Health Care,Computer enginering,"NumPy, Reinforcement Learning, PyTorch, Scikit-learn, GCP, FastAPI",Mid,full time,"Lake scot, CU",92860-109598,2023-02-26,Large,"KDB+, LangChain"

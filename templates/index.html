@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Centro de Ofertas Laborales IA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='visuales.css') }}" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Centro de Ofertas Laborales de IA</h1>
+    <p>Gestión, análisis y tendencias del mercado laboral en inteligencia artificial</p>
+  </header>
+
+  <section class="acordeon">
+    <details>
+      <summary>Crear nueva oferta</summary>
+      <form class="formulario" action="/crear" method="POST">
+        <input name="job_id" type="number" placeholder="ID del empleo" required />
+        <input name="company_name" type="text" placeholder="Nombre de la empresa" required />
+        <input name="industry" type="text" placeholder="Industria" />
+        <input name="job_title" type="text" placeholder="Título del puesto" />
+        <input name="skills_required" type="text" placeholder="Habilidades (coma separadas)" />
+        <input name="experience_level" type="text" placeholder="Experience level" />
+        <input name="employment_type" type="text" placeholder="Tipo de contrato" />
+        <input name="location" type="text" placeholder="Ubicación" />
+        <input name="salary_range_usd" type="text" placeholder="Rango salarial 50000-80000" />
+        <input name="posted_date" type="date" placeholder="Fecha" />
+        <input name="company_size" type="text" placeholder="Tamaño empresa" />
+        <input name="tools_preferred" type="text" placeholder="Herramientas preferidas" />
+        <button type="submit">Guardar</button>
+      </form>
+    </details>
+
+    <details>
+      <summary>Editar oferta</summary>
+      <form class="formulario" action="/editar" method="POST">
+        <input name="job_id" type="number" placeholder="ID del empleo" required />
+        <input name="columna" type="text" placeholder="Columna a modificar (ej. job_title)" required />
+        <input name="nuevo_valor" type="text" placeholder="Nuevo valor" required />
+        <button type="submit">Actualizar</button>
+      </form>
+    </details>
+
+    <details>
+      <summary>Eliminar oferta</summary>
+      <form class="formulario" action="/eliminar" method="POST">
+        <input name="job_id" type="number" placeholder="ID del empleo a eliminar" required />
+        <button type="submit" class="eliminar">Eliminar</button>
+      </form>
+    </details>
+  </section>
+
+  <section class="tabla-datos">
+    <h2>Ofertas registradas</h2>
+    <table>
+      <thead>
+        <tr>
+          {% for col in datos[0].keys() %}
+            <th>{{ col }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for fila in datos %}
+          <tr>
+            {% for valor in fila.values() %}
+              <td>{{ valor }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section class="carrusel">
+    <h2>Opciones de análisis</h2>
+    <div class="contenedor-carrusel" id="analy-options">
+      <!-- items interactivos -->
+      <div class="item" data-opt="1">1 Total de ofertas</div>
+      <div class="item" data-opt="2">2 Industria líder</div>
+      <div class="item" data-opt="3">3 Ofertas por industria</div>
+      <div class="item" data-opt="4">4 Ofertas por experiencia</div>
+      <div class="item" data-opt="5">5 Ofertas por tipo contrato</div>
+      <div class="item" data-opt="6">6 Promedio salarial</div>
+      <div class="item" data-opt="7">7 Top 5 cargos</div>
+      <div class="item" data-opt="8">8 Top 5 empresas</div>
+      <div class="item" data-opt="9">9 Salarios extremos</div>
+      <div class="item" data-opt="10">10 Habilidad específica</div>
+      <div class="item" data-opt="11">11 Ofertas por ciudad</div>
+      <div class="item" data-opt="12">12 Habilidades más demandadas</div>
+      <div class="item" data-opt="13">13 Tamaño de empresa</div>
+      <div class="item" data-opt="14">14 Salario por experiencia</div>
+      <div class="item" data-opt="15">15 Ofertas por año</div>
+      <div class="item" data-opt="16">16 Análisis habilidad</div>
+      <div class="item" data-opt="17">17 Habilidad por ubicación</div>
+    </div>
+  </section>
+
+  <!-- Zona de gráfico / resultados -->
+  <section class="grafico-container" style="width:90%; max-width:1000px; margin: 2rem auto;">
+    <canvas id="chartCanvas"></canvas>
+    <div id="resultText" style="color:#ddd; margin-top:12px;"></div>
+  </section>
+
+  <footer>
+    <p>Desarrollado por Daniel Sebastián Linares Martínez © 2025</p>
+  </footer>
+
+  <script>
+    // helper para fetch y pintar Chart.js
+    const chartCtx = document.getElementById("chartCanvas").getContext("2d");
+    let currentChart = null;
+
+    function destroyChart(){
+      if(currentChart){
+        currentChart.destroy();
+        currentChart = null;
+      }
+    }
+
+    async function fetchAnalyze(opt, params = {}) {
+      const url = new URL(`/api/analyze/${opt}`, window.location.origin);
+      Object.keys(params).forEach(k => url.searchParams.append(k, params[k]));
+      const res = await fetch(url);
+      if(!res.ok){
+        const t = await res.json().catch(()=>({error:"error"}));
+        document.getElementById("resultText").innerText = JSON.stringify(t);
+        return null;
+      }
+      return await res.json();
+    }
+
+    function drawBar(labels, data, title){
+      destroyChart();
+      currentChart = new Chart(chartCtx, {
+        type: "bar",
+        data: { labels: labels, datasets: [{ label: title, data: data }]},
+        options: { responsive:true, plugins:{ legend:{display:false}, title:{display:true,text:title}}}
+      });
+    }
+
+    function drawPie(labels, data, title){
+      destroyChart();
+      currentChart = new Chart(chartCtx, {
+        type: "pie",
+        data: { labels: labels, datasets: [{ data: data }]},
+        options: { responsive:true, plugins:{ title:{display:true,text:title}}}
+      });
+    }
+
+    function drawLine(labels, data, title){
+      destroyChart();
+      currentChart = new Chart(chartCtx, {
+        type: "line",
+        data: { labels: labels, datasets: [{ label: title, data: data, fill:false }]},
+        options: { responsive:true, plugins:{ title:{display:true,text:title}}}
+      });
+    }
+
+    // handler para cada item del carrusel
+    document.getElementById("analy-options").addEventListener("click", async (e) => {
+      const item = e.target.closest(".item");
+      if(!item) return;
+      const opt = parseInt(item.dataset.opt);
+      document.getElementById("resultText").innerText = "Cargando...";
+      try {
+        // algunas opciones requieren parámetros extra (skill, location)
+        if(opt === 10){
+          const skill = prompt("Ingrese la habilidad a buscar (ej. python):");
+          if(!skill) { document.getElementById("resultText").innerText = "Operación cancelada."; return; }
+          const res = await fetchAnalyze(10, { skill });
+          if(!res) return;
+          drawBar([skill], [res.count], `Ofertas que requieren ${skill}`);
+          document.getElementById("resultText").innerText = `${res.count} ofertas requieren ${skill}`;
+          return;
+        }
+        if(opt === 12){
+          const res = await fetchAnalyze(12, { topn: 10 });
+          if(!res) return;
+          const labels = Object.keys(res.top_skills);
+          const data = Object.values(res.top_skills);
+          drawBar(labels, data, "Top 10 habilidades más demandadas");
+          document.getElementById("resultText").innerText = "";
+          return;
+        }
+        if(opt === 16){
+          const skill = prompt("Ingrese habilidad para análisis general (enter para top):");
+          const params = skill ? { skill } : {};
+          const res = await fetchAnalyze(16, params);
+          if(!res) return;
+          if(res.skill){
+            drawBar([res.skill], [res.freq], `Demanda de ${res.skill} (nivel: ${res.level})`);
+            document.getElementById("resultText").innerText = `Frecuencia: ${res.freq} — Nivel: ${res.level}`;
+          } else {
+            const labels = Object.keys(res.top_skills);
+            const data = Object.values(res.top_skills);
+            drawBar(labels, data, "Top habilidades");
+            document.getElementById("resultText").innerText = "";
+          }
+          return;
+        }
+        if(opt === 17){
+          const skill = prompt("Ingrese habilidad (ej. python):");
+          const location = prompt("Ingrese ubicación (ciudad o país):");
+          if(!skill || !location) { document.getElementById("resultText").innerText = "Operación cancelada."; return; }
+          const res = await fetchAnalyze(17, { skill, location });
+          if(!res) return;
+          drawBar(Object.keys(res.top_in_location), Object.values(res.top_in_location), `Top habilidades en ${res.location}`);
+          document.getElementById("resultText").innerText = `${res.freq_in_location} ofertas con ${res.skill} en ${res.location}`;
+          return;
+        }
+
+        // opciones generales que retornan diccionarios de counts
+        const res = await fetchAnalyze(opt);
+        if(!res) return;
+        // manejo por opción
+        if(opt === 1){
+          document.getElementById("resultText").innerText = `Total de ofertas: ${res.total}`;
+          drawBar(["Total"], [res.total], "Total de ofertas");
+          return;
+        }
+        if(opt === 2 || opt === 3){
+          const dict = opt===2 ? res.counts : res.by_industry;
+          const labels = Object.keys(dict);
+          const data = Object.values(dict);
+          drawBar(labels, data, "Ofertas por industria");
+          document.getElementById("resultText").innerText = opt===2 ? `Industria top: ${res.industry_top}` : "";
+          return;
+        }
+        if(opt === 4){
+          const labels = Object.keys(res.by_experience);
+          const data = Object.values(res.by_experience);
+          drawPie(labels, data, "Ofertas por nivel de experiencia");
+          document.getElementById("resultText").innerText = "";
+          return;
+        }
+        if(opt === 5){
+          const labels = Object.keys(res.by_contract);
+          const data = Object.values(res.by_contract);
+          drawBar(labels, data, "Ofertas por tipo de contrato");
+          document.getElementById("resultText").innerText = "";
+          return;
+        }
+        if(opt === 6){
+          document.getElementById("resultText").innerText = `Promedio salarial (USD): ${res.promedio ? res.promedio.toFixed(2) : "no data"}`;
+          drawBar(["Promedio"], [res.promedio || 0], "Promedio del rango salarial");
+          return;
+        }
+        if(opt === 7){
+          drawBar(Object.keys(res.top5_titles), Object.values(res.top5_titles), "Top 5 cargos");
+          return;
+        }
+        if(opt === 8){
+          drawBar(Object.keys(res.top5_companies), Object.values(res.top5_companies), "Top 5 empresas");
+          return;
+        }
+        if(opt === 9){
+          // mostrar filas max y min
+          const maxRow = res.max ? res.max.row : null;
+          const minRow = res.min ? res.min.row : null;
+          document.getElementById("resultText").innerText = `Máximo: ${res.max ? res.max.value : "NA"} — Mínimo: ${res.min ? res.min.value : "NA"}`;
+          const labels=[], data=[];
+          if(minRow){ labels.push("min"); data.push(res.min.value); }
+          if(maxRow){ labels.push("max"); data.push(res.max.value); }
+          drawBar(labels, data, "Salario mínimo vs máximo");
+          return;
+        }
+        if(opt === 11){
+          drawBar(Object.keys(res.by_city), Object.values(res.by_city), "Ofertas por ciudad (Top)");
+          return;
+        }
+        if(opt === 12){
+          // manejado arriba en if(opt===12)
+          return;
+        }
+        if(opt === 13){
+          drawPie(Object.keys(res.by_company_size), Object.values(res.by_company_size), "Ofertas por tamaño de empresa");
+          return;
+        }
+        if(opt === 14){
+          drawBar(Object.keys(res.avg_salary_by_experience), Object.values(res.avg_salary_by_experience), "Salario promedio por experiencia");
+          return;
+        }
+        if(opt === 15){
+          drawLine(Object.keys(res.by_year), Object.values(res.by_year), "Ofertas publicadas por año");
+          return;
+        }
+
+        document.getElementById("resultText").innerText = JSON.stringify(res);
+      } catch (err){
+        document.getElementById("resultText").innerText = "Error: " + err.message;
+      }
+    });
+
+    // inicializar carousel simple (scroll horizontal)
+    // opcional: puedes mantener automovimiento si quieres
+  </script>
+</body>
+</html>
