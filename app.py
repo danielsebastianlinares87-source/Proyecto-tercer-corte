@@ -27,6 +27,12 @@ def index():
     df = cargar_df()
     datos = df.to_dict(orient="records")
     return render_template("index.html", datos=datos)
+# NUEVA RUTA PARA CRUD + TABLA
+@app.route("/datos")
+def datos():
+    df = cargar_df()
+    datos = df.to_dict(orient="records")
+    return render_template("datos.html", datos=datos)
 
 # CRUD (formularios HTML envían a estas rutas)
 @app.route("/crear", methods=["POST"])
