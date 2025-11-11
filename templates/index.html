@@ -325,5 +325,44 @@
     // inicializar carousel simple (scroll horizontal)
     // opcional: puedes mantener automovimiento si quieres
   </script>
+  <script>
+  // 🔍 FILTRAR POR COLUMNA — VERSIÓN CORREGIDA
+  const btnFiltrar = document.getElementById("filtrar-btn");
+  const btnReset = document.getElementById("reset-btn");
+
+  btnFiltrar.addEventListener("click", () => {
+    const colSeleccionada = document.getElementById("columna").value.trim();
+    const valor = document.getElementById("valor").value.trim().toLowerCase();
+    const filas = document.querySelectorAll("#tabla tbody tr");
+    const columnas = Array.from(document.querySelectorAll("#tabla thead th")).map(th =>
+      th.textContent.trim().toLowerCase()
+    );
+
+    if (!colSeleccionada || !valor) {
+      alert("Seleccione una columna y escriba un valor para filtrar.");
+      return;
+    }
+
+    const indiceColumna = columnas.indexOf(colSeleccionada.toLowerCase());
+    if (indiceColumna === -1) {
+      alert("No se encontró la columna seleccionada.");
+      return;
+    }
+
+    filas.forEach(fila => {
+      const celda = fila.children[indiceColumna];
+      if (!celda) return;
+      const textoCelda = celda.textContent.trim().toLowerCase();
+      fila.style.display = textoCelda.includes(valor) ? "" : "none";
+    });
+  });
+
+  // 🔁 Mostrar todo
+  btnReset.addEventListener("click", () => {
+    document.getElementById("valor").value = "";
+    document.getElementById("columna").value = "";
+    document.querySelectorAll("#tabla tbody tr").forEach(fila => fila.style.display = "");
+  });
+</script>
 </body>
 </html>
