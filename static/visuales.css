@@ -191,3 +191,35 @@ footer {
 footer p {
   font-size: 0.9rem;
 }
+.buscador {
+  width: 100%;
+  max-width: 500px;
+  margin: 1rem auto 2rem;
+  display: flex;
+  align-items: center;
+  background: #1a1a1a;
+  border-radius: 50px;
+  border: 1px solid #333;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 0 15px rgba(0,180,216,0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+.buscador:hover {
+  box-shadow: 0 0 25px rgba(0,180,216,0.3);
+}
+
+.buscador input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  padding-left: 0.5rem;
+}
+
+.buscador i {
+  color: #00b4d8;
+  font-size: 1.3rem;
+}
