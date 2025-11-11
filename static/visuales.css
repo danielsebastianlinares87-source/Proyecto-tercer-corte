@@ -264,4 +264,38 @@ header h1 {
   font-size: 2rem;
   margin: 0;
 }
+.panel-filtro {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+.panel-filtro select,
+.panel-filtro input {
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+.panel-filtro button {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#filtrar-btn {
+  background: linear-gradient(90deg, #00b4d8, #0077b6);
+  color: #fff;
+}
+
+#reset-btn {
+  background: linear-gradient(90deg, #ef476f, #e63946);
+  color: #fff;
+}
 
