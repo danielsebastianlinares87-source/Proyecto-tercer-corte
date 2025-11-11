@@ -61,12 +61,24 @@
 <section class="tabla-datos">
   <h2>Ofertas registradas</h2>
 
-  <!-- Buscador mejorado -->
+ 
   <div class="buscador">
     <i class="fas fa-search"></i>
     <input type="text" id="buscar" placeholder="Buscar empresa, puesto o habilidad...">
   </div>
-
+  
+  <div class="panel-filtro">
+    <select id="columna">
+      <option value="">Seleccione columna...</option>
+      {% for col in datos[0].keys() %}
+        <option value="{{ col }}">{{ col }}</option>
+      {% endfor %}
+    </select>
+    <input type="text" id="valor" placeholder="Valor a buscar...">
+    <button id="filtrar-btn">Filtrar</button>
+    <button id="reset-btn">Mostrar todo</button>
+  </div>
+  
   <div class="tabla-scroll">
     <table id="tabla">
       <thead>
