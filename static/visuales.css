@@ -223,3 +223,18 @@ footer p {
   color: #00b4d8;
   font-size: 1.3rem;
 }
+.tabla-scroll {
+  max-height: 500px;      /* altura máxima visible */
+  overflow-y: auto;       /* scroll vertical */
+  overflow-x: auto;       /* scroll horizontal si hace falta */
+  border: 1px solid #333;
+  border-radius: 10px;
+  background-color: #0d0d0d;
+  box-shadow: 0 0 15px rgba(0,180,216,0.15);
+}
+
+/* hacer que la tabla se mantenga bien visible dentro del scroll */
+.tabla-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+}
